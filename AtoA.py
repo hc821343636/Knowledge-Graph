@@ -6,6 +6,7 @@ from tqdm import tqdm
 import getDepinfo
 
 from typing import List, Tuple
+from py2neo import Graph, Node, Relationship
 
 
 # 分词 cws
@@ -17,7 +18,7 @@ from typing import List, Tuple
 # 语义依存分析(图) sdpg
 
 class AtoA:
-    def __init__(self,ltp:LTP):
+    def __init__(self, ltp: LTP):
         self.COOnumber = 0
         self.ltp = ltp
 
@@ -136,7 +137,8 @@ class AtoA:
                 result = self.srl_AtoA(sent)
                 # 创建CSV写入器
                 csv_writer.writerows(result)
-    def  triple2csv(self,csv_file_path: str,tripleList:list):
+
+    def triple2csv(self, csv_file_path: str, tripleList: list):
         '''
 
         :param csv_file_path:
@@ -145,9 +147,10 @@ class AtoA:
         '''
         with open(csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
             csv_writer = csv.writer(csvfile)
-            for triple in tqdm(tripleList,position=0):
+            for triple in tqdm(tripleList, position=0):
                 print(triple)
                 csv_writer.writerow(triple)
+
     def getTxt(self, txt_file_path: str):
         '''
         获得txt文本
@@ -165,7 +168,7 @@ class AtoA:
             file_content = txt_file.read()
             return file_content
 
-    def assign_numbers(self, input_file, output_file,current_number):
+    def assign_numbers(self, input_file, output_file, current_number):
         '''
 
         Args:
@@ -177,7 +180,7 @@ class AtoA:
 
         '''
         objects = {}  # 用于存储实物及其编号的字典
-        current_number # 当前编号553
+        current_number  # 当前编号553
 
         with open(input_file, 'r', newline='', encoding='utf-8') as infile, open(output_file, 'w', newline='',
                                                                                  encoding='utf-8') as outfile:
@@ -219,6 +222,49 @@ class AtoA:
                 writer.writerow(row)
 
     # 调用函数，传递输入和输出文件名
+    def create_graph_from_csv(self, csv_file: str, uri: str, username: str, password: str, name: str,
+                              deleteAll: bool = True):
+        '''
+
+        :param csv_file:  需要导入的csv
+        :param uri: 图数据库地址
+        :param username: 用户名
+        :param password: 密码
+        :param name: 数据库名称
+        :param deleteAll: 是否在导入以前清除所有点 默认为True
+        :return:
+        '''
+        graph = Graph(uri, auth=(username, password), name=name)
+        if deleteAll:
+            graph.delete_all()  # 清除neo4j中原有的结点等所有信息
+        created_nodes = {}
+
+        with open(csv_file, 'r', encoding='utf-8') as file:
+            csv_reader = csv.reader(file)
+            # 跳过表头
+            next(csv_reader, None)
+
+            for row in tqdm(csv_reader, position=0):
+                sender_name, action_name, receiver_name, sender_number, receiver_number = row[:5]
+
+                # 检查节点是否已存在，如果不存在则创建
+                if action_name == '_':
+                    nodetype = 'Conjunction'
+                else:
+                    nodetype = 'Person'
+                sender_node = created_nodes.get(sender_number, Node('Person', name=sender_name, number=sender_number))
+                receiver_node = created_nodes.get(receiver_number,
+                                                  Node(nodetype, name=receiver_name, number=receiver_number))
+
+                # 将节点添加到已创建的节点字典
+                created_nodes[sender_number] = sender_node
+                created_nodes[receiver_number] = receiver_node
+
+                # 创建关系
+                action_relationship = Relationship(sender_node, action_name, receiver_node)
+
+                # 将节点和关系添加到图数据库
+                graph.create(sender_node | receiver_node | action_relationship)
 
 
 if __name__ == '__main__':

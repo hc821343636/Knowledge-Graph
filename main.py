@@ -35,3 +35,8 @@ if __name__ == '__main__':
     atoa.triple2csv(csv_file_path='../data/mainoutput.csv', tripleList=output)
     atoa.assign_numbers(input_file='../data/mainoutput.csv', output_file='../data/mainoutputassign_numbers.csv',
                         current_number=atoa.COOnumber)
+    uri = "bolt://localhost:7687"  # 替换为你的Neo4j数据库URI
+    username = "neo4j"  # 替换为你的数据库用户名
+    password = "12345678"
+    name = 'neo4j1113'
+    atoa.create_graph_from_csv(csv_file='../data/mainoutputassign_numbers.csv',uri=uri,username=username,password=password,name=name,deleteAll=True)
