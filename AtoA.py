@@ -114,7 +114,7 @@ class AtoA:
 
         return unique_list
 
-    def getCsv(self, csv_file_path: str, sents: List[str]):
+    def sents2csv(self, csv_file_path: str, sents: List[str]):
         '''
         将进行了语义实体识别的句子得到的三元组写入csv
         Parameters:
@@ -136,7 +136,18 @@ class AtoA:
                 result = self.srl_AtoA(sent)
                 # 创建CSV写入器
                 csv_writer.writerows(result)
+    def  triple2csv(self,csv_file_path: str,tripleList:list):
+        '''
 
+        :param csv_file_path:
+        :param tripleList:
+        :return:
+        '''
+        with open(csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            for triple in tqdm(tripleList,position=0):
+                print(triple)
+                csv_writer.writerow(triple)
     def getTxt(self, txt_file_path: str):
         '''
         获得txt文本
@@ -166,7 +177,7 @@ class AtoA:
 
         '''
         objects = {}  # 用于存储实物及其编号的字典
-        current_number = 553  # 当前编号
+        current_number # 当前编号553
 
         with open(input_file, 'r', newline='', encoding='utf-8') as infile, open(output_file, 'w', newline='',
                                                                                  encoding='utf-8') as outfile:
