@@ -7,8 +7,13 @@ from tqdm import tqdm
 uri = "bolt://localhost:7687"  # 替换为你的Neo4j数据库URI
 username = "neo4j"  # 替换为你的数据库用户名
 password = "12345678"  # 替换为你的数据库密码
+<<<<<<< HEAD
 name='neo4j1113'
 graph = Graph(uri, auth=(username, password),name=name)
+=======
+
+graph = Graph(uri, auth=(username, password))
+>>>>>>> 1778416 (mac第二次提交)
 graph.delete_all()  # 清除neo4j中原有的结点等所有信息
 
 
@@ -45,5 +50,9 @@ def create_graph_from_csv(csv_file):
 
 
 # 示例：使用包含节点关系信息的 CSV 文件
+<<<<<<< HEAD
 csv_file_path = '../data/mainoutputassign_numbers.csv'
+=======
+csv_file_path = 'output_file.csv'
+>>>>>>> 1778416 (mac第二次提交)
 create_graph_from_csv(csv_file_path)

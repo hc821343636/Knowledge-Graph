@@ -18,7 +18,11 @@ from py2neo import Graph, Node, Relationship
 # 语义依存分析(图) sdpg
 
 class AtoA:
+<<<<<<< HEAD
     def __init__(self, ltp: LTP):
+=======
+    def __init__(self,ltp:LTP):
+>>>>>>> 1778416 (mac第二次提交)
         self.COOnumber = 0
         self.ltp = ltp
 
