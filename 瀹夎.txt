@@ -1,0 +1,13 @@
+# 方法 1： 使用清华源安装 LTP
+# 1. 安装 PyTorch 和 Transformers 依赖
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple torch transformers
+# 2. 安装 LTP
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple ltp ltp-core ltp-extension
+
+# 方法 2： 先全局换源，再安装 LTP
+# 1. 全局换 TUNA 源
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# 2. 安装 PyTorch 和 Transformers 依赖
+pip install torch transformers
+# 3. 安装 LTP
+pip install ltp ltp-core ltp-extension

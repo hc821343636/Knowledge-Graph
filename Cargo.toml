@@ -1,0 +1,11 @@
+[workspace]
+members = [
+    "rust/ltp",
+    "rust/ltp-cffi",
+    "python/extension",
+]
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
