@@ -1,5 +1,5 @@
 from getDepinfo import *
-from chaoge import AtoA
+from AtoA import AtoA
 from ltp import LTP, StnSplit
 
 
@@ -12,7 +12,7 @@ result = process_semantic_roles(semantic_roles)
 print(result)
 if __name__ == '__main__':
     ltp = LTP("../base2")
-    atoa = AtoA()
+    atoa = AtoA(ltp)
     txt_file_path = '../data/第一、二章'
     txt = atoa.getTxt(txt_file_path=txt_file_path + '.txt')
     sents = StnSplit().split(txt)

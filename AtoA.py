@@ -17,9 +17,9 @@ from typing import List, Tuple
 # 语义依存分析(图) sdpg
 
 class AtoA:
-    def __init__(self):
+    def __init__(self,ltp:LTP):
         self.COOnumber = 0
-        self.ltp = LTP("../base2")
+        self.ltp = ltp
 
     def srl_AtoA(self, sent):
         # 直接从句子提取消除并列关系的三元组
@@ -66,7 +66,7 @@ class AtoA:
 
     def dosomething(self, s: str):
         """
-        将当前元组中并列关系的两两实体返回，已经并列连词返回
+        将当前元组中并列关系的两两实体返回，并列连词返回
         Parameters:
             s: 为一个实体，A0或者A1
 
@@ -212,7 +212,7 @@ class AtoA:
 
 if __name__ == '__main__':
     ltp = LTP("../base2")
-    sents = ["我送她一束花"]
+
     """result = ltp.pipeline(["小王和小明合伙杀死了小张和小白"], tasks=["cws", "srl", 'ner', 'dep', 'pos'])
     print(result.srl)
     print(result.cws)
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     print(result.ner)
     print(result.dep)"""
     atoa = AtoA()
-    txt_file_path = '第一、二章'
+    txt_file_path = '../data/第一、二章'
     txt = atoa.getTxt(txt_file_path=txt_file_path + '.txt')
     sents = StnSplit().split(txt)
     # atoa.getCsv(csv_file_path=f'{txt_file_path}hchchchch.csv', sents=sents)
