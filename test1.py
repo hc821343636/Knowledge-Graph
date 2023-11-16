@@ -16,9 +16,18 @@ if torch.cuda.is_available():
     ltp.to("cuda")
     '''
 ###分句
+
+# 分词 cws
+# 词性标注 pos
+# 命名实体识别ner
+# 语义角色标注srl
+# 依存句法分析 dep
+# 语义依存分析(树) sdp
+# 语义依存分析(图) sdpg
 print('语义角色分析')
 result = ltp.pipeline(["他叫汤姆去拿外衣。"], tasks = ["cws","srl"])
 print(result.srl)
+print(f'分词{result.cws}')
 print('依存句法分析')
 result = ltp.pipeline(["他叫汤姆去拿外衣。"], tasks = ["cws","dep"])
 print(result.dep)
