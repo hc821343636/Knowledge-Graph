@@ -272,7 +272,7 @@ class AtoA:
 
 if __name__ == '__main__':
     ltp = LTP("../base2")
-
+    "change"
     """result = ltp.pipeline(["小王和小明合伙杀死了小张和小白"], tasks=["cws", "srl", 'ner', 'dep', 'pos'])
     print(result.srl)
     print(result.cws)
