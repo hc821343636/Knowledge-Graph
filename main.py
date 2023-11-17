@@ -28,11 +28,9 @@ if __name__ == '__main__':
     output = []
     for sent in tqdm(sents, position=0):
         result = ltp.pipeline(sent, tasks=["cws", "srl", 'ner', 'dep', 'pos'])
-        # print(result.srl)
-        triplesWithCoordination = process_semantic_roles(result.srl)
-        # print(triplesWithCoordination)
-        triples = atoa.getTripleWithoutCoordination(triplesWithCoordination)
-        # print(triples)
+        """triplesWithCoordination = process_semantic_roles(result.srl)
+        triples = atoa.getTripleWithoutCoordination(triplesWithCoordination)"""
+        triples=atoa.srl_AtoA(sent)
         output.extend(triples)
     atoa.triple2csv(csv_file_path='../data/mainoutput.csv', tripleList=output)
     atoa.assign_numbers(input_file='../data/mainoutput.csv', output_file='../data/mainoutputassign_numbers.csv',

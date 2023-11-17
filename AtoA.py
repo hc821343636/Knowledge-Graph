@@ -27,7 +27,7 @@ class AtoA:
 
     def srl_AtoA(self, sent):
         # 直接从句子提取消除并列关系的三元组
-        result = ltp.pipeline(sent, tasks=["cws", "srl"])
+        result = self.ltp.pipeline(sent, tasks=["cws", "srl"])
         # print(result.srl)
         result = result.srl
         triples = []
